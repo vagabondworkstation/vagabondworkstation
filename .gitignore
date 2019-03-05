@@ -1,0 +1,5 @@
+salt/hedron
+*.pyc
+__pycache__
+*.o
+salt/dist

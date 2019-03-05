@@ -1,0 +1,21 @@
+[Unit]
+Description=Starts sandboxed browser for "user"
+Requires=sandbox-browser-browser.mount
+AssertPathExists=/sandbox/browser/browser/Downloads
+
+[Service]
+User=browser
+Group=user
+UMask=0007
+Environment=DISPLAY=:0
+Environment=HOME=/sandbox/browser/browser
+WorkingDirectory=/sandbox/browser/browser
+ExecStart=/usr/local/bin/firefox
+ProtectHome=false
+PrivateTmp=true
+ProtectSystem=full
+NoNewPrivileges=true
+OOMScoreAdjust=900
+
+[Install]
+WantedBy=multi-user.target

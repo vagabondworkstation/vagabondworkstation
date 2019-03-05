@@ -1,0 +1,12 @@
+master: localhost
+failhard: True
+pillar_roots:
+  base:
+    - /srv/salt/private_pillar
+    - /srv/salt/pillar
+{%- if grains['id'] == 'vagabondworkstation' %}
+grains:
+  hedron_networking_resolv_conf: False # We turn this off mostly to help with decoy_vm.
+  hedron_vmmanagement_draining: True # This is to prevent builds without override code.
+  hedron_root_password_locked: False # We can provide a root password at install time.
+{%- endif %}

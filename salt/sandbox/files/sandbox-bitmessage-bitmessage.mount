@@ -1,0 +1,8 @@
+[Unit]
+Description=Bind mount for sandbox bitmessage
+
+[Mount]
+# Interesting, this folder doesn't even have to exist for the mount to work. Not a systemd thing, just bind mounts in general. If the folder doesn't exist, you make it,  then put stuff in it, it'll show up.
+What=/home/user/.sandbox/bitmessage
+Where=/sandbox/bitmessage/bitmessage
+Options=bind,rw

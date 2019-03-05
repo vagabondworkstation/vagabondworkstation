@@ -1,0 +1,9 @@
+[Unit]
+Description=Bind mount for sandbox browser
+
+[Mount]
+# Interesting, this folder doesn't even have to exist for the mount to work. Not a systemd thing, just bind mounts in general. If the folder doesn't exist, you make it,  then put stuff in it, it'll show up.
+# FIXME: With that said, if you make the folder, then delete it, you will have to bounce this service.
+What=/home/user/.sandbox/browser
+Where=/sandbox/browser/browser
+Options=bind,rw

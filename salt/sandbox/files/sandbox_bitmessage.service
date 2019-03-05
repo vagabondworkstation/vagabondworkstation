@@ -1,0 +1,21 @@
+[Unit]
+Description=Starts sandboxed bitmessage for "user"
+Requires=sandbox-bitmessage-bitmessage.mount
+AssertPathExists=/sandbox/bitmessage/bitmessage/.config/PyBitmessage/keys.dat
+
+[Service]
+User=bitmessage
+Group=user
+UMask=0007
+Environment=DISPLAY=:0
+Environment=HOME=/sandbox/bitmessage/bitmessage
+WorkingDirectory=/sandbox/bitmessage/bitmessage
+ExecStart=/usr/local/bin/pybitmessage
+ProtectHome=false
+PrivateTmp=true
+ProtectSystem=full
+NoNewPrivileges=true
+OOMScoreAdjust=899
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,55 @@
+# These seem like they may not be applying.
+roster_defaults:
+  minion_opts:
+    failhard: True
+    log_level_logfile: debug
+
+vagabondworkstation:
+  host: 10.0.2.1
+  minion_opts:
+    failhard: True
+    log_level_logfile: debug
+
+# This one doesn't work if you're on red_identity_vm already. Use highstate.sh instead.
+red_identity_vm:
+  host: 10.0.2.1
+  port: 4000
+  minion_opts:
+    failhard: True
+    log_level_logfile: debug
+
+orange_identity_vm:
+  host: 10.0.2.1
+  port: 4001
+  minion_opts:
+    failhard: True
+    log_level_logfile: debug
+
+yellow_identity_vm:
+  host: 10.0.2.1
+  port: 4002
+  minion_opts:
+    failhard: True
+    log_level_logfile: debug
+
+green_identity_vm:
+  host: 10.0.2.1
+  port: 4003
+  minion_opts:
+    failhard: True
+    log_level_logfile: debug
+
+blue_identity_vm:
+  host: 10.0.2.1
+  port: 4004
+  minion_opts:
+    failhard: True
+    log_level_logfile: debug
+
+vagabondworkstation_isovm:
+  host: 10.0.2.1
+  port: 3901
+  minion_opts:
+    failhard: True
+    log_level_logfile: debug
+
