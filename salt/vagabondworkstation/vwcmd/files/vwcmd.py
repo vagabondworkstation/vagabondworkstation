@@ -5,6 +5,7 @@
 import sys
 import os
 import json
+import logging
 from tempfile import TemporaryFile, mkdtemp
 from tarfile import TarFile
 from shutil import rmtree
@@ -13,6 +14,8 @@ import aaargh
 from hedron import latest_only as hedron_latest_only
 from paramiko import SSHClient, AutoAddPolicy
 from sh import mount, umount, sync, keyplease
+
+logging.basicConfig(level=logging.WARNING)
 
 cli = aaargh.App()
 
@@ -86,17 +89,41 @@ def ssh(hostname,
 @cli.cmd
 @cli.cmd_arg('command')
 @cli.cmd_arg('--username', type=str, default='root')
-def ssh_all(command, username='root'):
+def ssh_all(command, username='root', allow_failures=False):
+    """
+    ssh() for all VMs on the host.
+
+    allow_failures will keep going even if an ssh() fails.
+    This is useful if say we want to lock VMs and one isn't running.
+    Odds are, we will die before we can lock all the VMs.
+    """
     all_output = b''
+    failures = []
     for host in list_managed_virtual_machines():
         host_dict = virtual_machine_info(host)
         key_filename = keyplease.private(host_dict['vm_hostname']).strip('\n')
-        all_output = all_output + ssh('127.0.0.1',
-                                      command,
-                                      host_dict['slot'],
-                                      username=username,
-                                      key_filename=key_filename)
-    return all_output
+        output = b''
+        try:
+            output = ssh('127.0.0.1',
+                         command,
+                         host_dict['slot'],
+                         username=username,
+                         key_filename=key_filename)
+        except TypeError as e:
+            raise(e)
+        except Exception as e:
+            if allow_failures is True:
+                logging.warning('Connection to {} failed.'.format(host))
+                logging.debug('Exception: {}'.format(e))
+                failures.append(e)
+            else:
+                raise(e)
+        all_output = all_output + output
+
+    if allow_failures is True:
+        return all_output, failures
+    else:
+        return all_output
 
 
 def _prune_tar(members):
@@ -178,9 +205,13 @@ def brainvault_lock_all_vms():
     Lock all VMs. Doesn't double lock if already locked.
     """
     # Redirect stuff is so ssh can return when we background.
-    ssh_all('bvlock_helper > /dev/null 2> /dev/null < /dev/null',
-            username='user')
-    return True
+    _, failures = ssh_all('bvlock_helper > /dev/null 2> /dev/null < /dev/null',
+                          username='user',
+                          allow_failures=True)
+    if len(failures) == 0:
+        return True
+    else:
+        return False
 
 
 @cli.cmd
@@ -188,8 +219,13 @@ def brainvault_unlock_all_vms():
     """
     Unlock all locked VMs.
     """
-    ssh_all('killall bvlock', username='user')
-    return True
+    _, failures = ssh_all('killall bvlock',
+                          username='user',
+                          allow_failures=True)
+    if len(failures) == 0:
+        return True
+    else:
+        return False
 
 
 @cli.cmd

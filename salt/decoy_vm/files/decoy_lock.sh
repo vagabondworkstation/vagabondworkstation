@@ -6,7 +6,13 @@ export DISPLAY=:0
 
 systemctl start access_console_slock
 
-vwcmd brainvault_lock_all_vms
+# Suspicious output should be logged to console.
+# We'll also give a non-zero exit status but continue processing.
+if ! vwcmd brainvault_lock_all_vms; then
+    EXIT_STATUS=1
+else
+    EXIT_STATUS=0
+fi
 
 # We now have a hack to set this as we'd want it, anyway.
 decoy_vm_machine_id='decoy_vm'
@@ -27,3 +33,5 @@ xdotool sleep 2 windowfocus "$(xdotool search --name "$decoy_vm_machine_id")" sl
 # Doesn't actually loop? I guess qemu captures the keys. But there are cases where user might not want to lock the decoy anyway.
 # Lock decoy, should have no effect if already locked.
 #xdotool sleep 3 key ctrl+alt+l
+
+exit "$EXIT_STATUS"
