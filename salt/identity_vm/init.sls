@@ -16,6 +16,7 @@ include:
   - hedron.sporestack
   - hedron.sporestack.helper
   - hedron.develop_this
+  - hedron.doublemixer
 
 # develop_this is probably excessive for most.
 
