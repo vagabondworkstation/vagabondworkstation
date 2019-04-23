@@ -32,6 +32,7 @@ identity_vm_packages:
       - procmail
       - msmtp
       - suckless-tools
+      - mupdf
 
 # user is where you'd run brainvault
 # Others might be clearnet proxy firefox, firefox, bitmessage, then untrusted.

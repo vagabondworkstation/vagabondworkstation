@@ -33,7 +33,7 @@ them by running each identity on a different VM. Do not attempt to use two
 identities on a single identity_vm.
 
 Disk security is a combination of encrypted rootfs and keeping the most
-sensitive documents from every touching the disk through tmpfs. Further, swap
+sensitive documents from ever touching the disk through tmpfs. Further, swap
 is not used anywhere by default. Encrypted rootfs is not strictly necessary but
 can also help make tampering more difficult if your device is able to be taken
 without your knowledge. It also acts as a second layer of encryption if used.
@@ -70,7 +70,7 @@ After install is finished, reboot and be patient. If you have failed installs
 in the VMs, you may want to ctrl+alt+f9 to restart or debug, or give it all
 another go.
 
-When you see a 'Xephyr :3' window in X, give it focus and press ctrl
+When you see a 'Xephyr :3' window in X, give it focus and press
 alt+shift+enter to launch a terminal. Set root's password with `passwd`,
 else you will be eternally locked out. The window manager inside the Xephyr
 is dwm, which is also used in any identity_vm.
