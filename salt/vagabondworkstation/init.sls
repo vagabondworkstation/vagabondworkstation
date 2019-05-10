@@ -1,6 +1,9 @@
 # We speed this up slightly by separating VM creation (fast) and salting (slow).
 
+# We disable swap as VMs may have sensitive data. Rootfs may or may not be encrypted. If it is, gives us an extra measure of security.
+
 include:
+  - hedron.base.disable_swap
   - documentation
   - hedron.saltstack
   - .packages
