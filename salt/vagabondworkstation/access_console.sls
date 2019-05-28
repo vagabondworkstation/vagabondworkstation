@@ -41,10 +41,11 @@ vagabondworkstation_access_console_slock_service_file:
         [Unit]
         Description=Access Console slock
         After=access_console_dwm.service
+        StartLimitIntervalSec=0
         [Service]
         ExecStart=/usr/bin/slock
         Restart=on-failure
-        RestartSec=1
+        RestartSec=3
         Environment=DISPLAY=:3
         [Install]
         WantedBy=multi-user.target
