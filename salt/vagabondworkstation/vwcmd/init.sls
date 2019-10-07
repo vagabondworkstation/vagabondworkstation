@@ -1,5 +1,8 @@
 # vwcmd: for administering vagabondworkstation.
 
+# This is broken on Debian Buster: https://github.com/paramiko/paramiko/issues/1517
+# Not sure of any fix at the moment.
+
 include:
   - hedron.pip.python3
 

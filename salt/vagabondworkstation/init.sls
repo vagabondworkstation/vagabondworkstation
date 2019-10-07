@@ -2,6 +2,10 @@
 
 # We disable swap as VMs may have sensitive data. Rootfs may or may not be encrypted. If it is, gives us an extra measure of security.
 
+# We could use vmmanagement.baremetal_tor and then --operating_system / --ssh_key_file, but... the install logs would all show the same .onion unique to the host and correlate them.
+# Ideally would be able to run a pastebin with a different .onion per paste?
+# For now, sticking with ipxe-buster
+
 include:
   - hedron.base.disable_swap
   - documentation
@@ -9,6 +13,7 @@ include:
   - .packages
   - .networking
   - hedron.qemu
+  - .qemu_buster
   - hedron.vmmanagement.baremetal
   - hedron.audio
   - hedron.tornet

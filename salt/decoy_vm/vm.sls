@@ -2,7 +2,7 @@
 
 decoy_vm_vm_launched:
   cmd.run:
-    - name: ipxe-ubuntu-desktop bionic --vga | sporestackv2 launch --days 0 --api_endpoint http://127.0.0.1 --host 127.0.0.1 --ipxescript_stdin True --days 0 --bandwidth -1 --ipv4 nat --ipv6 nat --memory 2 --disk 25 --cores 1 --qemuopts "-display sdl -vga virtio -usb -soundhw hda -no-quit -name decoy_vm" decoy_vm
+    - name: ipxe-ubuntu-desktop bionic --vga | sporestackv2 launch --days 0 --api_endpoint http://127.0.0.1 --host 127.0.0.1 --ipxescript_stdin True --days 0 --bandwidth -1 --ipv4 nat --ipv6 nat --memory 2 --disk 25 --cores 1 --qemuopts "-display {{ pillar['vagabondworkstation.qemu.display'] }} -vga virtio -usb -soundhw hda -no-quit -name decoy_vm" decoy_vm
     - unless: sporestackv2 get_attribute decoy_vm expiration
 
 decoy_vm_vm_lock_script_dependencies:
